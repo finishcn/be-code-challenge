@@ -4,3 +4,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://be-register/eureka/
+logging:
+  level:
+    org.springframework.cloud.openfeign: info
+    org.springframework.cloud.sleuth: info

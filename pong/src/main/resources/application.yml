@@ -1,6 +1,6 @@
 spring:
   application:
-    name: pong
+    name: be-pong-service
   profiles:
     active: dev
   jackson:
@@ -9,6 +9,15 @@ spring:
     allow-bean-definition-overriding: true
   thymeleaf:
     cache: false
+  cloud:
+    compatibility-verifier:
+      enabled: false
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0
 management:
   endpoints:
     web:

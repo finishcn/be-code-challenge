@@ -1,14 +1,23 @@
 spring:
   application:
-    name: ping
+    name: be-ping-service
   profiles:
     active: dev
+  cloud:
+    compatibility-verifier:
+      enabled: false
   jackson:
     default-property-inclusion: non_null
   main:
     allow-bean-definition-overriding: true
   thymeleaf:
     cache: false
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0
 management:
   endpoints:
     web:

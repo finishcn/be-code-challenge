@@ -4,4 +4,9 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
-
+logging:
+  level:
+    org.springframework.cloud.openfeign: info
+    org.springframework.cloud.sleuth: info
+config:
+  rate-limiter: 1
