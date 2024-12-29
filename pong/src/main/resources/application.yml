@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: pong
+  profiles:
+    active: dev
+  jackson:
+    default-property-inclusion: non_null
+  main:
+    allow-bean-definition-overriding: true
+  thymeleaf:
+    cache: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,loggers
+
+
+
