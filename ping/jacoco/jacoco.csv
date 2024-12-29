@@ -1,0 +1,5 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+ping,org.example.controller,PingController,0,19,0,0,0,5,0,4,0,4
+ping,org.example.filter,WebTraceFilter,0,16,1,1,0,5,1,2,0,2
+ping,org.example.component,FileLimitedLock,8,99,0,6,4,29,0,10,0,7
+ping,org.example.service,PingService,9,86,0,6,3,22,0,7,0,4

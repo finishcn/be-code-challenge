@@ -10,6 +10,7 @@ package org.example.constant;
 public class HttpCode {
 
     public final static int RATE_LIMITED = 429;
+    public final static int HTTP_OK = 200;
 
     public final static String RATE_LIMITED_MSG = "pong rate limited";
 

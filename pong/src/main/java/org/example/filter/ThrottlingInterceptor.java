@@ -6,6 +6,7 @@ package org.example.filter;
 
 import com.google.common.util.concurrent.RateLimiter;
 import jakarta.annotation.PostConstruct;
+import lombok.Getter;
 import org.example.constant.HttpCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
@@ -28,6 +29,7 @@ public class ThrottlingInterceptor implements WebFilter {
     @Value("${config.rate-limiter:1}")
     private Integer rateLimite;
 
+    @Getter
     private RateLimiter rateLimiter;
 
     @PostConstruct

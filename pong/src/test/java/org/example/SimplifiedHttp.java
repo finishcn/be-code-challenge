@@ -7,8 +7,6 @@ package org.example;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
-import lombok.val;
-import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * @author liyu.caelus 2024/12/29

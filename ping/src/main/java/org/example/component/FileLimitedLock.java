@@ -54,8 +54,8 @@ public class FileLimitedLock implements LimitedLock {
         for (FileChannel channel : channelList) {
             try {
                 lock = channel.tryLock();
-            } catch (IOException e) {
-                log.error("try lock error", e);
+            } catch (Exception ig) {
+                log.error("try lock error");
             }
             if (null != lock) {
                 return lock;
@@ -68,8 +68,8 @@ public class FileLimitedLock implements LimitedLock {
     public void unlock(FileLock lock) {
         try {
             lock.release();
-        } catch (IOException e) {
-            log.error("lock release error", e);
+        } catch (IOException ig) {
+            log.error("lock release error");
         }
     }
 
@@ -78,8 +78,8 @@ public class FileLimitedLock implements LimitedLock {
         channelList.forEach(channel -> {
                     try {
                         channel.close();
-                    } catch (IOException e) {
-                        log.error("close file error", e);
+                    } catch (IOException ig) {
+                        log.error("close file error");
                     }
                 }
         );

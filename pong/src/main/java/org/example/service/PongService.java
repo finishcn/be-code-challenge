@@ -6,6 +6,7 @@
 package org.example.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.constant.MappedConstant;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,6 +20,6 @@ public class PongService {
 
     public String respond(String msg) {
         log.info("ping Request sent {}", msg);
-        return "World";
+        return MappedConstant.RESPONSE_MSG;
     }
 }

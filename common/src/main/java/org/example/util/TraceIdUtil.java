@@ -6,8 +6,6 @@ package org.example.util;
 
 import cn.hutool.core.util.RandomUtil;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -15,20 +13,20 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class TraceIdUtil {
 
-    private String hostname;
+//    private String hostname;
 
     private final ThreadLocalRandom randomUtil = RandomUtil.getRandom();
 
     private final static TraceIdUtil trace = new TraceIdUtil();
 
-    private TraceIdUtil() {
+    /*private TraceIdUtil() {
         try {
             hostname = InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException e) {
             hostname = RandomUtil.randomString(6);
             e.printStackTrace();
         }
-    }
+    }*/
 
     public static String getGenerateTraceId() {
         return trace.generateTraceId();

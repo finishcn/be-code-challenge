@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileLimitedLock.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ping</a> &gt; <a href="index.source.html" class="el_package">org.example.component</a> &gt; <span class="el_source">FileLimitedLock.java</span></div><h1>FileLimitedLock.java</h1><pre class="source lang-java linenums">/**
+ * liyu.caelus 2024/12/29
+ * Copyright
+ */
+package org.example.component;
+
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.text.StrBuilder;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import lombok.extern.slf4j.Slf4j;
+import org.example.base.LimitedLock;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author liyu.caelus 2024/12/29
+ */
+<span class="fc" id="L28">@Slf4j</span>
+@Component
+<span class="fc" id="L30">public class FileLimitedLock implements LimitedLock {</span>
+
+    @Value(&quot;${config.file-lock}&quot;)
+    private String lockFile;
+    @Value(&quot;${config.num:2}&quot;)
+    private Integer num;
+
+<span class="fc" id="L37">    private final List&lt;FileChannel&gt; channelList = new ArrayList&lt;&gt;();</span>
+
+    @PostConstruct
+    public void init() throws FileNotFoundException {
+<span class="fc" id="L41">        final StrBuilder builder = new StrBuilder();</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        for (int i = 0; i &lt; num; ++i) {</span>
+<span class="fc" id="L43">            builder.append(lockFile).append(&quot;.&quot;).append(i);</span>
+<span class="fc" id="L44">            File file = FileUtil.touch(builder.toString());</span>
+<span class="fc" id="L45">            log.info(file.getAbsolutePath());</span>
+<span class="fc" id="L46">            channelList.add(new FileOutputStream(file, true).getChannel());</span>
+<span class="fc" id="L47">            builder.reset();</span>
+        }
+<span class="fc" id="L49">    }</span>
+
+    @Override
+    public FileLock lock() {
+<span class="fc" id="L53">        FileLock lock = null;</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        for (FileChannel channel : channelList) {</span>
+            try {
+<span class="fc" id="L56">                lock = channel.tryLock();</span>
+<span class="fc" id="L57">            } catch (Exception ig) {</span>
+<span class="fc" id="L58">                log.error(&quot;try lock error&quot;);</span>
+<span class="fc" id="L59">            }</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            if (null != lock) {</span>
+<span class="fc" id="L61">                return lock;</span>
+            }
+<span class="fc" id="L63">        }</span>
+<span class="fc" id="L64">        return null;</span>
+    }
+
+    @Override
+    public void unlock(FileLock lock) {
+        try {
+<span class="fc" id="L70">            lock.release();</span>
+<span class="nc" id="L71">        } catch (IOException ig) {</span>
+<span class="nc" id="L72">            log.error(&quot;lock release error&quot;);</span>
+<span class="fc" id="L73">        }</span>
+<span class="fc" id="L74">    }</span>
+
+    @PreDestroy
+    public void destroy() {
+<span class="fc" id="L78">        channelList.forEach(channel -&gt; {</span>
+                    try {
+<span class="fc" id="L80">                        channel.close();</span>
+<span class="nc" id="L81">                    } catch (IOException ig) {</span>
+<span class="nc" id="L82">                        log.error(&quot;close file error&quot;);</span>
+<span class="fc" id="L83">                    }</span>
+<span class="fc" id="L84">                }</span>
+        );
+<span class="fc" id="L86">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

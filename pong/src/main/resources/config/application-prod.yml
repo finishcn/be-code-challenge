@@ -8,3 +8,5 @@ logging:
   level:
     org.springframework.cloud.openfeign: info
     org.springframework.cloud.sleuth: info
+config:
+  rate-limiter: 1

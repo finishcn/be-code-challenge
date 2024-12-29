@@ -5,6 +5,7 @@
 package org.example.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.constant.MappedConstant;
 import org.example.service.PingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,11 +29,11 @@ public class PingController {
 
     @GetMapping(value = "service")
     public Mono<String> service() {
-        return Mono.just(pingService.service("Hello"));
+        return Mono.just(pingService.service(MappedConstant.REQUEST_MSG));
     }
 
     @Scheduled(cron = "* * * * * ? ")
     public void scheduled() {
-        pingService.service("Hello");
+        pingService.service(MappedConstant.REQUEST_MSG);
     }
 }
