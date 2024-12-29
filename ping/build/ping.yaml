@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: be-ping
+  namespace: default
+  labels:
+    app: be-ping
+spec:
+  ports:
+  - port: 80
+    name: web
+  selector:
+    app: be-ping
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-ping
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+      - command:
+        - java
+        - -server
+        - -XX:+PrintGCDetails
+        - -Xloggc:gclogs
+        - -Dlog4j2.formatMsgNoLookups=true
+        - -jar
+        - /app/ping.jar
+        - --server.port=80
+        - --spring.profiles.active=prod
+        image: ip:10443/be/be-ping:0.0.1
+        name: be-ping
+        resources:
+          limits:
+            cpu: "1"
+            memory: 512Mi
+          requests:
+            cpu: 500m
+            memory: 256Mi
+        securityContext:
+          runAsUser: 1000
+        volumeMounts:
+        - mountPath: /app/file
+          name: pvc-ping
+          subPath: ping
+      dnsPolicy: ClusterFirst
+      volumes:
+      - name: pvc-ping
+        persistentVolumeClaim:
+          claimName: pvc-ping
