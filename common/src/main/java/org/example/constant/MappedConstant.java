@@ -14,4 +14,8 @@ public class MappedConstant {
 
     public final static String REQUEST_MSG = "Hello";
     public final static String RESPONSE_MSG = "World";
+    public final static String SUCCESS = "success";
+
+    public final static String MQ_RECEIVE_TASK = "test";
+
 }

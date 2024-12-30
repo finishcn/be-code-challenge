@@ -2,7 +2,7 @@ package org.example.controller
 
 import org.example.component.FileLimitedLock
 import org.example.constant.MappedConstant
-import org.example.filter.WebTraceFilter
+import org.example.mapped.filter.WebTraceFilter
 import org.example.service.PingService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
@@ -21,7 +21,7 @@ import spock.lang.Title
 @ActiveProfiles("dev")
 @Title("pingController unit test")
 @WebFluxTest(controllers = PingController.class)
-@Import([WebTraceFilter.class, FileLimitedLock.class, PingService.class])
+@Import([FileLimitedLock.class, PingService.class])
 class PingControllerTest extends Specification {
 
     @Autowired

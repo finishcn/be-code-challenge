@@ -10,10 +10,10 @@ import cn.hutool.http.HttpUtil;
 import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.example.base.LimitedLock;
+import org.example.component.FileLimitedLock;
 import org.example.constant.HttpCode;
 import org.example.constant.MappedConstant;
-import org.example.util.TraceIdUtil;
+import org.example.mapped.util.TraceIdUtil;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +31,11 @@ import java.nio.channels.FileLock;
 public class PingService {
 
     @Autowired
-    private LimitedLock limitedLock;
+    private FileLimitedLock limitedLock;
+//    @Autowired
+//    private StreamBridge streamBridge;
+//    @Autowired
+//    private MongodbLock mongodbLock;
 
     @Value("${client.serviceUrl}")
     private String baseUrl;
@@ -53,7 +57,7 @@ public class PingService {
                 HttpRequest request = HttpUtil.createGet(uri + msg);
                 request.header(MappedConstant.TRACE_ID, MDC.get(MappedConstant.TRACE_ID));
                 HttpResponse response = request.execute();
-                log.info("ping Request sent {}", msg);
+                log.info("Ping Request sent {}", msg);
                 String body = response.body();
                 if (HttpCode.RATE_LIMITED == response.getStatus()) {
                     log.info("Pong throttled {}:{}", body, response.getStatus());
@@ -72,4 +76,16 @@ public class PingService {
         log.info("Request not send as being 'rate limited'");
         return HttpCode.PING_LIMITED_MSG;
     }
+
+    /*public String message(String msg) {
+        boolean flag = streamBridge.send(MappedConstant.MQ_RECEIVE_TASK, MessageBuilder.withPayload(msg).build());
+        log.info("Ping sent message {},result {}", msg, flag);
+        return MappedConstant.SUCCESS;
+    }*/
+
+    /*public String sendMessageToKafka(String msg) {
+        boolean send = streamBridge.send("kafkaMessage-out-0", MessageBuilder.withPayload("kafka test：" + msg).build());
+        return MappedConstant.SUCCESS;
+    }*/
+
 }

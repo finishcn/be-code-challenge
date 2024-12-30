@@ -4,6 +4,19 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://be-register/eureka/
+spring:
+  cloud:
+    stream:
+      default-binder: kafka
+      kafka:
+        binder:
+          brokers: localhost:9092
+          auto-add-partitions: true
+          min-partition-count: 1
+      rocketmq:
+        binder:
+          name-server: 127.0.0.1:9876
+          group: test
 logging:
   level:
     org.springframework.cloud.openfeign: info
@@ -12,3 +25,4 @@ client:
   serviceUrl: http://be-pong-service
 config:
   file-lock: /app/lock
+  num: 2

@@ -12,6 +12,9 @@ spring:
   cloud:
     compatibility-verifier:
       enabled: false
+    stream:
+      function:
+        autodetect: false
   sleuth:
     web:
       client:

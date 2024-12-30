@@ -9,7 +9,6 @@ import cn.hutool.core.text.StrBuilder;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
-import org.example.base.LimitedLock;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +26,7 @@ import java.util.List;
  */
 @Slf4j
 @Component
-public class FileLimitedLock implements LimitedLock {
+public class FileLimitedLock  {
 
     @Value("${config.file-lock}")
     private String lockFile;
@@ -48,7 +47,6 @@ public class FileLimitedLock implements LimitedLock {
         }
     }
 
-    @Override
     public FileLock lock() {
         FileLock lock = null;
         for (FileChannel channel : channelList) {
@@ -64,7 +62,6 @@ public class FileLimitedLock implements LimitedLock {
         return null;
     }
 
-    @Override
     public void unlock(FileLock lock) {
         try {
             lock.release();

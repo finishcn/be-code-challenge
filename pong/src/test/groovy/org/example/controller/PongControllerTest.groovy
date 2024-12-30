@@ -3,7 +3,7 @@ package org.example.controller
 import org.example.constant.MappedConstant
 import org.example.filter.LogFilter
 import org.example.filter.ThrottlingInterceptor
-import org.example.filter.WebTraceFilter
+import org.example.filter.WebFluxTraceFilter
 import org.example.service.PongService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
@@ -22,7 +22,7 @@ import spock.lang.Title
 @ActiveProfiles("dev")
 @Title("PongController unit test")
 @WebFluxTest(controllers = PongController.class)
-@Import([PongService.class, LogFilter.class, ThrottlingInterceptor.class, WebTraceFilter.class])
+@Import([PongService.class, LogFilter.class, ThrottlingInterceptor.class, WebFluxTraceFilter.class])
 class PongControllerTest extends Specification {
 
     @Autowired

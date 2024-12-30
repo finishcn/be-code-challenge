@@ -12,6 +12,7 @@
         <module>common</module>
         <module>ping</module>
         <module>pong</module>
+        <module>module</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -23,13 +24,16 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!--<spring-cloud.version>2022.0.5</spring-cloud.version>-->
-        <!--<spring-cloud-alibaba.version>2022.0.0.2</spring-cloud-alibaba.version>-->
+        <spring-cloud.version>2023.0.4</spring-cloud.version>
+        <spring-cloud-alibaba.version>2023.0.3.2</spring-cloud-alibaba.version>
         <spring-boot.version>3.2.12</spring-boot.version>
+        <spring-cloud-stream.version>4.1.4</spring-cloud-stream.version>
         <hutool.version>5.8.35</hutool.version>
         <guava.version>31.1-jre</guava.version>
         <spock.version>2.4-M4-groovy-4.0</spock.version>
         <jacoco.version>0.8.12</jacoco.version>
+        <postgresql.version>42.7.4</postgresql.version>
+        <aspectj.version>1.9.9.1</aspectj.version>
     </properties>
     <dependencies>
         <dependency>
@@ -48,7 +52,17 @@
                 <artifactId>common</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!--<dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>trace-base</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>trace-mq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
@@ -68,13 +82,28 @@
                  <version>${spring-cloud-alibaba.version}</version>
                  <type>pom</type>
                  <scope>import</scope>
-             </dependency>-->
+             </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-bom</artifactId>
                 <version>${hutool.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-stream-rocketmq</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+            </dependency>
+           <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+                <version>${spring-cloud-stream.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-mongodb</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -100,6 +129,16 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

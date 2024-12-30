@@ -1,5 +1,35 @@
 server:
   port: 80
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://postgresql:5432/postgres?characterEncoding=utf8
+    username: postgres
+    password: mima123456
+    hikari:
+      connection-timeout: 30000
+      minimum-idle: 1
+      maximum-pool-size: 3
+      auto-commit: true
+      idle-timeout: 600000
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  cloud:
+    stream:
+      default-binder: kafka
+      kafka:
+        binder:
+          brokers: kafka:9092
+          auto-add-partitions: true
+          min-partition-count: 1
+      rocketmq:
+        binder:
+          name-server: name-server:9876
+          group: test
 eureka:
   client:
     serviceUrl:

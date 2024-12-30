@@ -1,5 +1,45 @@
 server:
   port: 8001
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5432/postgres?characterEncoding=utf8
+    username: postgres
+    password: mima123456
+    hikari:
+      connection-timeout: 30000
+      minimum-idle: 1
+      maximum-pool-size: 3
+      auto-commit: true
+      idle-timeout: 600000
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  cloud:
+    stream:
+      default-binder: kafka
+      function:
+        definition: kafkaMessage
+      kafka:
+        binder:
+          brokers: localhost:9092
+      rocketmq:
+        binder:
+          name-server: 127.0.0.1:9876
+          group: test
+      bindings:
+        kafkaMessage-in-0:
+          binder: kafka
+          destination: test
+          group: kafka-test-group
+          content-type: text/plain
+        receiveTask-in-0:
+          binder: rocketmq
+          destination: test
+          group: test
 eureka:
   client:
     serviceUrl:
