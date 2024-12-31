@@ -7,16 +7,11 @@ package org.example.service;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
-import io.micrometer.common.util.StringUtils;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.example.component.FileLimitedLock;
 import org.example.constant.HttpCode;
-import org.example.constant.MappedConstant;
-import org.example.mapped.util.TraceIdUtil;
-import org.slf4j.MDC;
+import org.example.feign.client.FeignResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.nio.channels.FileLock;
@@ -32,39 +27,25 @@ public class PingService {
 
     @Autowired
     private FileLimitedLock limitedLock;
+    @Autowired
+    private PingClient pingClient;
 //    @Autowired
 //    private StreamBridge streamBridge;
 //    @Autowired
 //    private MongodbLock mongodbLock;
 
-    @Value("${client.serviceUrl}")
-    private String baseUrl;
-
-    private String uri;
-
-    @PostConstruct
-    public void init() {
-        uri = baseUrl + "/pong/service/";
-    }
-
     public String service(String msg) {
-        if (StringUtils.isBlank(MDC.get(MappedConstant.TRACE_ID))) {
-            MDC.put(MappedConstant.TRACE_ID, TraceIdUtil.getGenerateTraceId());
-        }
         FileLock lock = limitedLock.lock();
         if (null != lock) {
             try {
-                HttpRequest request = HttpUtil.createGet(uri + msg);
-                request.header(MappedConstant.TRACE_ID, MDC.get(MappedConstant.TRACE_ID));
-                HttpResponse response = request.execute();
+                FeignResponse response = pingClient.send(msg);
                 log.info("Ping Request sent {}", msg);
-                String body = response.body();
-                if (HttpCode.RATE_LIMITED == response.getStatus()) {
-                    log.info("Pong throttled {}:{}", body, response.getStatus());
+                String body = response.getBody();
+                if (HttpCode.RATE_LIMITED == response.getHttpCode()) {
+                    log.info("Pong throttled {}:{}", body, response.getHttpCode());
                     return HttpCode.RATE_LIMITED_MSG;
                 }
-                log.info("Pong Respond {}:{}", body, response.getStatus());
-                response.close();
+                log.info("Pong Respond {}:{}", body, response.getHttpCode());
                 return body;
             } catch (Exception e) {
                 log.error("Request sent error", e);

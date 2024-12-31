@@ -7,10 +7,7 @@ package org.example.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.example.service.PongService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 /**
@@ -26,8 +23,13 @@ public class PongController {
     @Autowired
     private PongService pongService;
 
-    @GetMapping(value = "service/{msg}")
-    public Mono<String> service(@PathVariable("msg") String msg) {
+    @GetMapping(value = "send/{msg}")
+    public Mono<String> send(@PathVariable("msg") String msg) {
+        return Mono.just(pongService.respond(msg));
+    }
+
+    @PostMapping(value = "service")
+    public Mono<String> service(String msg) {
         return Mono.just(pongService.respond(msg));
     }
 }

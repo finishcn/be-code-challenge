@@ -33,5 +33,5 @@ logging:
 client:
   serviceUrl: http://localhost:8001
 config:
-  file-lock: D:\\workspace\\project\\be-code-test\\lock
+  file-lock: D:\\workspace\\project\\be-code-challenge\\lock
   num: 2

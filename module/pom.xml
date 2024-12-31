@@ -33,7 +33,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>strace-mq</artifactId>
+                <artifactId>trace-mq</artifactId>
                 <version>${trace.version}</version>
             </dependency>
         </dependencies>

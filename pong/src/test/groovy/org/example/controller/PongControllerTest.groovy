@@ -1,5 +1,6 @@
 package org.example.controller
 
+import cn.hutool.json.JSONObject
 import org.example.constant.MappedConstant
 import org.example.filter.LogFilter
 import org.example.filter.ThrottlingInterceptor
@@ -30,11 +31,24 @@ class PongControllerTest extends Specification {
     @Autowired
     private ThrottlingInterceptor throttlingInterceptor
 
-    def "client send “Hello” to Pong Controller then should respond with “World”"() {
+    def "get method test"() {
         given:
         def msg = MappedConstant.REQUEST_MSG
         when:
-        def response = webClient.get().uri("/pong/service/" + msg).header(MappedConstant.TRACE_ID, "1")
+        def response = webClient.get().uri("/pong/send/" + msg).header(MappedConstant.TRACE_ID, "1")
+                .exchange()
+        then:
+        response.expectStatus().isOk()
+        response.expectBody(String.class).returnResult().responseBody == MappedConstant.RESPONSE_MSG
+    }
+
+    def "post method test"() {
+        given:
+        def msg = MappedConstant.REQUEST_MSG
+        when:
+        JSONObject data = new JSONObject();
+        data.putOnce("msg","Hello")
+        def response = webClient.post().uri("/pong/service").bodyValue(data.toString())
                 .exchange()
         then:
         response.expectStatus().isOk()

@@ -54,6 +54,11 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>feign</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>trace-base</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -77,12 +82,12 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                 <groupId>com.alibaba.cloud</groupId>
-                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                 <version>${spring-cloud-alibaba.version}</version>
-                 <type>pom</type>
-                 <scope>import</scope>
-             </dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-bom</artifactId>
@@ -95,7 +100,7 @@
                 <artifactId>spring-cloud-starter-stream-rocketmq</artifactId>
                 <version>${spring-cloud-alibaba.version}</version>
             </dependency>
-           <dependency>
+            <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-stream-kafka</artifactId>
                 <version>${spring-cloud-stream.version}</version>

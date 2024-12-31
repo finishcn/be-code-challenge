@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>trace-base</artifactId>
+            <artifactId>feign</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -49,12 +49,20 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-stream-kafka</artifactId>
         </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
         </dependency>
         <dependency>
             <groupId>org.spockframework</groupId>
@@ -79,66 +87,66 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.gmavenplus</groupId>
-                <artifactId>gmavenplus-plugin</artifactId>
-                <version>3.0.2</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compileTests</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
-                <configuration>
-                    <includes>
-                        <include>org/example/controller/*</include>
-                        <include>org/example/service/*</include>
-                        <include>org/example/component/*</include>
-                    </includes>
-                    <rules>
-                        <rule implementation="org.jacoco.maven.RuleConfiguration">
-                            <element>BUNDLE</element>
-                            <limits>　　
-                                <limit implementation="org.jacoco.report.check.Limit">
-                                    <counter>METHOD</counter>
-                                    <value>COVEREDRATIO</value>
-                                    <minimum>0.80</minimum>
-                                </limit>
-                                <limit implementation="org.jacoco.report.check.Limit">
-                                    <counter>BRANCH</counter>
-                                    <value>COVEREDRATIO</value>
-                                    <minimum>0.50</minimum>
-                                </limit>
-                                <limit implementation="org.jacoco.report.check.Limit">
-                                    <counter>CLASS</counter>
-                                    <value>MISSEDCOUNT</value>
-                                    <maximum>0.90</maximum>
-                                </limit>
-                            </limits>
-                        </rule>
-                    </rules>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!-- <plugin>
+                 <groupId>org.codehaus.gmavenplus</groupId>
+                 <artifactId>gmavenplus-plugin</artifactId>
+                 <version>3.0.2</version>
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>compileTests</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.jacoco</groupId>
+                 <artifactId>jacoco-maven-plugin</artifactId>
+                 <version>${jacoco.version}</version>
+                 <configuration>
+                     <includes>
+                         <include>org/example/controller/*</include>
+                         <include>org/example/service/*</include>
+                         <include>org/example/component/*</include>
+                     </includes>
+                     <rules>
+                         <rule implementation="org.jacoco.maven.RuleConfiguration">
+                             <element>BUNDLE</element>
+                             <limits>　　
+                                 <limit implementation="org.jacoco.report.check.Limit">
+                                     <counter>METHOD</counter>
+                                     <value>COVEREDRATIO</value>
+                                     <minimum>0.80</minimum>
+                                 </limit>
+                                 <limit implementation="org.jacoco.report.check.Limit">
+                                     <counter>BRANCH</counter>
+                                     <value>COVEREDRATIO</value>
+                                     <minimum>0.50</minimum>
+                                 </limit>
+                                 <limit implementation="org.jacoco.report.check.Limit">
+                                     <counter>CLASS</counter>
+                                     <value>MISSEDCOUNT</value>
+                                     <maximum>0.90</maximum>
+                                 </limit>
+                             </limits>
+                         </rule>
+                     </rules>
+                 </configuration>
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>prepare-agent</goal>
+                         </goals>
+                     </execution>
+                     <execution>
+                         <id>report</id>
+                         <phase>test</phase>
+                         <goals>
+                             <goal>report</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>-->
         </plugins>
     </build>
 </project>

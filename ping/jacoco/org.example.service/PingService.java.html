@@ -7,16 +7,11 @@ package org.example.service;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
-import io.micrometer.common.util.StringUtils;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.example.component.FileLimitedLock;
 import org.example.constant.HttpCode;
-import org.example.constant.MappedConstant;
-import org.example.mapped.util.TraceIdUtil;
-import org.slf4j.MDC;
+import org.example.feign.client.FeignResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.nio.channels.FileLock;
@@ -26,55 +21,41 @@ import java.nio.channels.FileLock;
  *
  * @author liyu.caelus 2024/12/29
  */
-<span class="fc" id="L29">@Slf4j</span>
+<span class="fc" id="L24">@Slf4j</span>
 @Service
-<span class="fc" id="L31">public class PingService {</span>
+<span class="fc" id="L26">public class PingService {</span>
 
     @Autowired
     private FileLimitedLock limitedLock;
+    @Autowired
+    private PingClient pingClient;
 //    @Autowired
 //    private StreamBridge streamBridge;
 //    @Autowired
 //    private MongodbLock mongodbLock;
 
-    @Value(&quot;${client.serviceUrl}&quot;)
-    private String baseUrl;
-
-    private String uri;
-
-    @PostConstruct
-    public void init() {
-<span class="fc" id="L47">        uri = baseUrl + &quot;/pong/service/&quot;;</span>
-<span class="fc" id="L48">    }</span>
-
     public String service(String msg) {
-<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (StringUtils.isBlank(MDC.get(MappedConstant.TRACE_ID))) {</span>
-<span class="fc" id="L52">            MDC.put(MappedConstant.TRACE_ID, TraceIdUtil.getGenerateTraceId());</span>
-        }
-<span class="fc" id="L54">        FileLock lock = limitedLock.lock();</span>
-<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (null != lock) {</span>
+<span class="fc" id="L38">        FileLock lock = limitedLock.lock();</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (null != lock) {</span>
             try {
-<span class="fc" id="L57">                HttpRequest request = HttpUtil.createGet(uri + msg);</span>
-<span class="fc" id="L58">                request.header(MappedConstant.TRACE_ID, MDC.get(MappedConstant.TRACE_ID));</span>
-<span class="fc" id="L59">                HttpResponse response = request.execute();</span>
-<span class="fc" id="L60">                log.info(&quot;Ping Request sent {}&quot;, msg);</span>
-<span class="fc" id="L61">                String body = response.body();</span>
-<span class="fc bfc" id="L62" title="All 2 branches covered.">                if (HttpCode.RATE_LIMITED == response.getStatus()) {</span>
-<span class="fc" id="L63">                    log.info(&quot;Pong throttled {}:{}&quot;, body, response.getStatus());</span>
-<span class="fc" id="L64">                    return HttpCode.RATE_LIMITED_MSG;</span>
+<span class="fc" id="L41">                FeignResponse response = pingClient.send(msg);</span>
+<span class="fc" id="L42">                log.info(&quot;Ping Request sent {}&quot;, msg);</span>
+<span class="fc" id="L43">                String body = response.getBody();</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">                if (HttpCode.RATE_LIMITED == response.getHttpCode()) {</span>
+<span class="fc" id="L45">                    log.info(&quot;Pong throttled {}:{}&quot;, body, response.getHttpCode());</span>
+<span class="fc" id="L46">                    return HttpCode.RATE_LIMITED_MSG;</span>
                 }
-<span class="fc" id="L66">                log.info(&quot;Pong Respond {}:{}&quot;, body, response.getStatus());</span>
-<span class="fc" id="L67">                response.close();</span>
-<span class="fc" id="L68">                return body;</span>
-<span class="nc" id="L69">            } catch (Exception e) {</span>
-<span class="nc" id="L70">                log.error(&quot;Request sent error&quot;, e);</span>
-<span class="nc" id="L71">                return HttpCode.PING_ERROR_MSG;</span>
+<span class="fc" id="L48">                log.info(&quot;Pong Respond {}:{}&quot;, body, response.getHttpCode());</span>
+<span class="fc" id="L49">                return body;</span>
+<span class="nc" id="L50">            } catch (Exception e) {</span>
+<span class="nc" id="L51">                log.error(&quot;Request sent error&quot;, e);</span>
+<span class="nc" id="L52">                return HttpCode.PING_ERROR_MSG;</span>
             } finally {
-<span class="fc" id="L73">                limitedLock.unlock(lock);</span>
+<span class="fc" id="L54">                limitedLock.unlock(lock);</span>
             }
         }
-<span class="fc" id="L76">        log.info(&quot;Request not send as being 'rate limited'&quot;);</span>
-<span class="fc" id="L77">        return HttpCode.PING_LIMITED_MSG;</span>
+<span class="fc" id="L57">        log.info(&quot;Request not send as being 'rate limited'&quot;);</span>
+<span class="fc" id="L58">        return HttpCode.PING_LIMITED_MSG;</span>
     }
 
     /*public String message(String msg) {
