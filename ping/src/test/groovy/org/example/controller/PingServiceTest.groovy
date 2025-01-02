@@ -1,7 +1,7 @@
 package org.example.controller
 
 import org.example.component.FileLimitedLock
-import org.example.constant.HttpCode
+import org.example.constant.HttpStatus
 import org.example.constant.MappedConstant
 import org.example.service.PingService
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,7 +13,7 @@ import spock.lang.Title
 
 /**
  * service test
- * @author liyu.caelus 2024/12/29
+ * @author liyu.caelus 2024/12/31
  *
  */
 
@@ -28,12 +28,9 @@ class PingServiceTest extends Specification {
     @Autowired
     private FileLimitedLock fileLimitedLock
 
-    def "Ping Service attempts to says “Hello” to Pong Service around every 1 secondand then Pong service should respond with “World”"() {
-        given:
-        def msg = MappedConstant.REQUEST_MSG
-
+    def "Ping Service attempts to says “Hello” to Pong Service then Pong service should respond with “World”"() {
         when:
-        def result = pingService.service(msg)
+        def result = pingService.send()
 
         then:
         result == MappedConstant.RESPONSE_MSG
@@ -41,19 +38,30 @@ class PingServiceTest extends Specification {
 
     def "Request not send as being 'rate limited'"() {
         given:
-        def msg = MappedConstant.REQUEST_MSG
+        //def msg = MappedConstant.REQUEST_MSG
 
         when:
         def result
         for (int i = 0; i < 10; i++) {
             if (null == fileLimitedLock.lock()) {
-                result = pingService.service(msg)
+                result = pingService.send()
                 break
             }
         }
         fileLimitedLock.destroy()
 
         then:
-        result == HttpCode.PING_LIMITED_MSG
+        result == HttpStatus.PING_LIMITED_MSG
+    }
+
+    def "mongodb set send message test"() {
+        given:
+        //def msg = MappedConstant.REQUEST_MSG
+
+        when:
+        def result = pingService.setSendMessage(HttpStatus.SUCCESS_MESSAGE);
+
+        then:
+        result == HttpStatus.SUCCESS_MESSAGE
     }
 }

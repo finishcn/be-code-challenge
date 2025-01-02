@@ -1,5 +1,5 @@
 /**
- * liyu.caelus 2024/12/29
+ * liyu.caelus 2024/12/31
  * Copyright
  */
 package org.example.feign.client;
@@ -9,18 +9,12 @@ import lombok.Getter;
 import java.lang.reflect.Proxy;
 
 /**
- * @author liyu.caelus 2024/12/29
+ * create feign client proxy
+ * @author liyu.caelus 2024/12/31
  */
-public class OpenFeignClientProxyFactory<T> {
+public record OpenFeignClientProxyFactory<T>(Class<T> feignInterface) {
 
-    @Getter
-    private final Class<T> feignInterface;
-
-    public OpenFeignClientProxyFactory(Class<T> feignInterface) {
-        this.feignInterface = feignInterface;
-    }
-
-    protected T newInstance(OpenFeignClientProxy mapperProxy) {
+    private T newInstance(OpenFeignClientProxy mapperProxy) {
         return (T) Proxy.newProxyInstance(feignInterface.getClassLoader(), new Class[]{feignInterface}, mapperProxy);
     }
 

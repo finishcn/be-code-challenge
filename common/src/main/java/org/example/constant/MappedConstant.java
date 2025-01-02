@@ -1,21 +1,36 @@
 /**
- * liyu.caelus 2024/12/29
+ * liyu.caelus 2024/12/31
  * Copyright
  */
 package org.example.constant;
 
 /**
- * @author liyu.caelus 2024/12/29
+ * common constant
+ *
+ * @author liyu.caelus 2024/12/31
  */
 public class MappedConstant {
 
 
+    /**
+     * microservices trace id
+     */
     public final static String TRACE_ID = "traceId";
-
+    /**
+     * ping says Hello
+     */
     public final static String REQUEST_MSG = "Hello";
+    /**
+     * pong respond  World
+     */
     public final static String RESPONSE_MSG = "World";
-    public final static String SUCCESS = "success";
-
-    public final static String MQ_RECEIVE_TASK = "test";
+    /**
+     * send message id
+     */
+    public final static String MSG_ID = "ping";
+    /**
+     * MQ test topic
+     */
+    public final static String MQ_TOPIC = "be_test";
 
 }

@@ -1,5 +1,5 @@
 /**
- * liyu.caelus 2024/12/29
+ * liyu.caelus 2024/12/31
  * Copyright
  */
 package org.example.feign.client;
@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author liyu.caelus 2024/12/29
+ * feign client http response
+ * @author liyu.caelus 2024/12/31
  */
 @Data
 @AllArgsConstructor

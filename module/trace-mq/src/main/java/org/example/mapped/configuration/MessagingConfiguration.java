@@ -1,3 +1,7 @@
+/**
+ * liyu.caelus 2024/12/31
+ * Copyright
+ */
 package org.example.mapped.configuration;
 
 import org.example.mapped.interceptor.MqInterceptor;
@@ -8,6 +12,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.channel.AbstractMessageChannel;
 
+/**
+ * add message queue interceptor
+ *
+ * @Author liyu.caelus
+ * @@version 1.0
+ */
 @Configuration
 public class MessagingConfiguration {
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ThrottlingInterceptor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pong</a> &gt; <a href="index.source.html" class="el_package">org.example.filter</a> &gt; <span class="el_source">ThrottlingInterceptor.java</span></div><h1>ThrottlingInterceptor.java</h1><pre class="source lang-java linenums">/**
- * liyu.caelus 2024/12/29
+ * liyu.caelus 2024/12/31
  * Copyright
  */
 package org.example.filter;
@@ -7,7 +7,7 @@ package org.example.filter;
 import com.google.common.util.concurrent.RateLimiter;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
-import org.example.constant.HttpCode;
+import org.example.constant.HttpStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatusCode;
@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 /**
  * Throttling  Interceptor
  *
- * @author liyu.caelus 2024/12/29
+ * @author liyu.caelus 2024/12/31
  */
 @Order(9)
 @Component
@@ -42,7 +42,7 @@ import reactor.core.publisher.Mono;
 <span class="fc bfc" id="L42" title="All 2 branches covered.">        if (rateLimiter.tryAcquire()) {</span>
 <span class="fc" id="L43">            return chain.filter(exchange);</span>
         } else {
-<span class="fc" id="L45">            exchange.getResponse().setStatusCode(HttpStatusCode.valueOf(HttpCode.RATE_LIMITED));</span>
+<span class="fc" id="L45">            exchange.getResponse().setStatusCode(HttpStatusCode.valueOf(HttpStatus.RATE_LIMITED));</span>
 <span class="fc" id="L46">            return Mono.empty();</span>
         }
     }

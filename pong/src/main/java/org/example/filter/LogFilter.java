@@ -1,5 +1,5 @@
 /**
- * liyu.caelus 2024/12/29
+ * liyu.caelus 2024/12/31
  * Copyright
  */
 package org.example.filter;
@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 /**
  * log filter
  *
- * @author liyu.caelus 2024/12/29
+ * @author liyu.caelus 2024/12/31
  */
 @Slf4j
 @Order(2)
@@ -25,7 +25,7 @@ public class LogFilter implements WebFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         long startTime = System.currentTimeMillis();
-        log.info("Request sent: {}", exchange.getRequest().getPath());
+        log.info("Request path: {}", exchange.getRequest().getPath());
         return chain.filter(exchange)
                 .doFinally(signalType -> {
                     long duration = System.currentTimeMillis() - startTime;

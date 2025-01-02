@@ -30,6 +30,11 @@ spring:
         binder:
           name-server: name-server:9876
           group: test
+      bindings:
+        kafkaMessage-out-0:
+          destination: test
+          group: kafka-test-group
+          content-type: text/plain
 eureka:
   client:
     serviceUrl:

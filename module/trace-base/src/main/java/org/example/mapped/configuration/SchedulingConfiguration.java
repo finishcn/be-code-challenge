@@ -1,5 +1,5 @@
 /**
- * liyu.caelus 2024/12/29
+ * liyu.caelus 2024/12/31
  * Copyright
  */
 package org.example.mapped.configuration;

@@ -1,5 +1,5 @@
 /**
- * liyu.caelus 2024/12/29
+ * liyu.caelus 2024/12/31
  * Copyright
  */
 package org.example.mapped.configuration;
@@ -12,6 +12,12 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * initial trace name
+ *
+ * @Author liyu.caelus
+ * @@version 1.0
+ */
 @Configuration
 public class TraceEnvironmentAware implements BeanDefinitionRegistryPostProcessor {
 

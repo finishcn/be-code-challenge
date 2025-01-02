@@ -1,7 +1,7 @@
 /**
  * pong controller
  *
- * @author liyu.caelus 2024/12/29
+ * @author liyu.caelus 2024/12/31
  */
 package org.example;
 
@@ -11,7 +11,7 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 
 /**
  * pong server
- * @author liyu.caelus 2024/12/29
+ * @author liyu.caelus 2024/12/31
  *
  */
 //@EnableDiscoveryClient

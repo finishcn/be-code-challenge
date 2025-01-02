@@ -1,3 +1,7 @@
+/**
+ * liyu.caelus 2024/12/31
+ * Copyright
+ */
 package org.example.mapped.interceptor;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +14,12 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.stereotype.Component;
 
+/**
+ * message queue trace id interceptor
+ *
+ * @Author liyu.caelus
+ * @@version 1.0
+ */
 @Component
 @GlobalChannelInterceptor
 public class MqInterceptor implements ChannelInterceptor {

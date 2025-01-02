@@ -1,56 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PongService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pong</a> &gt; <a href="index.source.html" class="el_package">org.example.service</a> &gt; <span class="el_source">PongService.java</span></div><h1>PongService.java</h1><pre class="source lang-java linenums">/**
  * pong controller
  *
- * @author liyu.caelus 2024/12/29
+ * @author liyu.caelus 2024/12/31
  */
 package org.example.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.constant.MappedConstant;
+import org.example.dto.MqMessageDTO;
+import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MimeTypeUtils;
 
 /**
  * pong service
  *
- * @author liyu.caelus 2024/12/29
+ * @author liyu.caelus 2024/12/31
  */
-<span class="fc" id="L18">@Slf4j</span>
+<span class="fc" id="L25">@Slf4j</span>
 @Service
 @Configuration
-<span class="fc" id="L21">public class PongService {</span>
+<span class="fc" id="L28">public class PongService {</span>
 
-//    @Autowired
-//    private LogRepository logRepository;
+    @Autowired(required = false)
+    private StreamBridge streamBridge;
 
+    /**
+     * Receive a message from the ping.
+     *
+     * @param msg
+     * @return
+     */
     public String respond(String msg) {
-<span class="fc" id="L27">        log.info(&quot;ping Request sent {}&quot;, msg);</span>
-<span class="fc" id="L28">        return MappedConstant.RESPONSE_MSG;</span>
+<span class="fc" id="L40">        log.info(&quot;ping Request sent {}&quot;, msg);</span>
+<span class="fc" id="L41">        String response = MappedConstant.RESPONSE_MSG;</span>
+<span class="fc" id="L42">        this.message(msg, response);</span>
+<span class="fc" id="L43">        return response;</span>
     }
 
-   /* @Bean
-    public Consumer&lt;Message&gt; receiveTask() {
-        return message -&gt; {
-            try {
-                String data = message.getBody().toString();
-                log.info(&quot;ping sent rocketmq message {}&quot;, data);
-                logRepository.save(PongLog.builder().message(data).build());
-            } catch (Exception e) {
-                log.error(&quot;recive message error&quot;, e);
-            }
-        };
-    }*/
-
-    /*@Bean
-    public Consumer&lt;Message&lt;String&gt;&gt; kafkaMessage() {
-        return message -&gt; {
-            try {
-                String data = message.getPayload();
-                log.info(&quot;ping sent kafka message {}&quot;, data);
-            } catch (Exception e) {
-                log.error(&quot;recive message kafka error&quot;, e);
-            }
-        };
-    }*/
+    /**
+     * Send a message to RocketMQ
+     *
+     * @param req  ping message
+     * @param resp pong message
+     */
+    private void message(String req, String resp) {
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (null != streamBridge) {</span>
+<span class="fc" id="L54">            MqMessageDTO message = MqMessageDTO.builder().id(MDC.get(MappedConstant.TRACE_ID)).pong(resp).ping(req).build();</span>
+<span class="fc" id="L55">            boolean flag = streamBridge.send(MappedConstant.MQ_TOPIC, MessageBuilder.withPayload(message)</span>
+<span class="fc" id="L56">                    .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build());</span>
+<span class="fc" id="L57">            log.info(&quot;Ping sent message {},result {}&quot;, message, flag);</span>
+        }
+<span class="fc" id="L59">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,46 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://postgresql:5432/postgres?characterEncoding=utf8
+    username: postgres
+    password: mima123456
+    hikari:
+      connection-timeout: 30000
+      minimum-idle: 1
+      maximum-pool-size: 3
+      auto-commit: true
+      idle-timeout: 600000
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  cloud:
+    stream:
+      default-binder: rocketmq
+      function:
+        definition: receiveTask
+      rocketmq:
+        binder:
+          name-server: name-server1:9876
+          group: be
+        bindings:
+          receiveTask-in-0:
+            consumer:
+              subscription: be_test
+      bindings:
+        receiveTask-in-0:
+          destination: be_test
+          group: be_group
+logging:
+  level:
+    org.springframework.cloud.openfeign: info
+    org.springframework.cloud.sleuth: info
+rocketmq:
+  name-server: name-server:9876
+  producer:
+    group: be
+    send-message-timeout: 3000
+    retry-times-when-send-failed: 3
+    retry-times-when-send-async-failed: 3

@@ -1,5 +1,5 @@
 /**
- * liyu.caelus 2024/12/29
+ * liyu.caelus 2024/12/31
  * Copyright
  */
 package org.example.component;
@@ -22,11 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author liyu.caelus 2024/12/29
+ * Filesystem-based locks
+ *
+ * @author liyu.caelus 2024/12/31
  */
 @Slf4j
 @Component
-public class FileLimitedLock  {
+public class FileLimitedLock {
 
     @Value("${config.file-lock}")
     private String lockFile;
@@ -35,6 +37,11 @@ public class FileLimitedLock  {
 
     private final List<FileChannel> channelList = new ArrayList<>();
 
+    /**
+     * init number of file
+     *
+     * @throws FileNotFoundException
+     */
     @PostConstruct
     public void init() throws FileNotFoundException {
         final StrBuilder builder = new StrBuilder();
@@ -47,6 +54,11 @@ public class FileLimitedLock  {
         }
     }
 
+    /**
+     * check lock
+     *
+     * @return
+     */
     public FileLock lock() {
         FileLock lock = null;
         for (FileChannel channel : channelList) {
@@ -62,6 +74,11 @@ public class FileLimitedLock  {
         return null;
     }
 
+    /**
+     * release lock
+     *
+     * @param lock
+     */
     public void unlock(FileLock lock) {
         try {
             lock.release();

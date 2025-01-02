@@ -10,7 +10,7 @@ import spock.lang.Title
 
 /**
  * service test
- * @author liyu.caelus 2024/12/29
+ * @author liyu.caelus 2024/12/31
  *
  */
 
@@ -22,7 +22,7 @@ class PongServiceTest extends Specification {
     @Autowired
     private PongService pongService
 
-    def "Controller attempts to send “Hello” to service then service should return with “World”"() {
+    def "service should return with “World”"() {
         given:
         def msg = MappedConstant.REQUEST_MSG
 

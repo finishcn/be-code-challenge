@@ -2,11 +2,12 @@ package org.example.controller
 
 import org.example.component.FileLimitedLock
 import org.example.constant.MappedConstant
-import org.example.mapped.filter.WebTraceFilter
+import org.example.service.PingClient
 import org.example.service.PingService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.context.annotation.Import
+import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
 import spock.lang.Specification
@@ -14,24 +15,24 @@ import spock.lang.Title
 
 /**
  * PongController test
- * @author liyu.caelus 2024/12/29
+ * @author liyu.caelus 2024/12/31
  *
  */
 
 @ActiveProfiles("dev")
 @Title("pingController unit test")
 @WebFluxTest(controllers = PingController.class)
-@Import([FileLimitedLock.class, PingService.class])
+@Import([FileLimitedLock.class, PingClient.class, PingService.class])
 class PingControllerTest extends Specification {
 
     @Autowired
     private WebTestClient webClient;
 
-    def "Ping Controller attempts to says 'Hello'"() {
+    def "Ping Controller do send service"() {
         given:
-        // msg = MappedConstant.REQUEST_MSG
+        //def msg = MappedConstant.REQUEST_MSG
         when:
-        def response = webClient.get().uri("/ping/service").header(MappedConstant.TRACE_ID, "1")
+        def response = webClient.get().uri("/ping/send").header(MappedConstant.TRACE_ID, "1")
                 .exchange()
 
         then:
@@ -39,11 +40,11 @@ class PingControllerTest extends Specification {
         response.expectBody(String.class).returnResult().responseBody == MappedConstant.RESPONSE_MSG
     }
 
-    def "Ping Controller attempts to says 'Hello' without TraceId"() {
+    def "Ping Controller do send service set send message"() {
         given:
-        // msg = MappedConstant.REQUEST_MSG
+        def msg = MappedConstant.REQUEST_MSG
         when:
-        def response = webClient.get().uri("/ping/service").exchange()
+        def response = webClient.post().uri("/ping/message?msg=" + msg).exchange()
 
         then:
         response.expectStatus().isOk()

@@ -1,5 +1,5 @@
 /**
- * liyu.caelus 2024/12/29
+ * liyu.caelus 2024/12/31
  * Copyright
  */
 package org.example.feign.client;
@@ -10,6 +10,8 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import io.micrometer.common.util.StringUtils;
+import lombok.Getter;
+import lombok.Setter;
 import org.example.constant.MappedConstant;
 import org.example.mapped.util.TraceIdUtil;
 import org.slf4j.MDC;
@@ -23,8 +25,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author liyu.caelus 2024/12/29
+ * feign client execute http request
+ *
+ * @author liyu.caelus 2024/12/31
  */
+@Setter
+@Getter
 public class OpenFeignClientProxy implements InvocationHandler {
 
     private String name;
@@ -104,6 +110,8 @@ public class OpenFeignClientProxy implements InvocationHandler {
         return null;
     }
 
+    @Setter
+    @Getter
     static class Request {
         private String path;
         private RequestMethod method;
@@ -112,37 +120,5 @@ public class OpenFeignClientProxy implements InvocationHandler {
             this.path = path;
             this.method = method;
         }
-
-        public String getPath() {
-            return path;
-        }
-
-        public void setPath(String path) {
-            this.path = path;
-        }
-
-        public RequestMethod getMethod() {
-            return method;
-        }
-
-        public void setMethod(RequestMethod method) {
-            this.method = method;
-        }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 }

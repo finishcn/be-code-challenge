@@ -1,16 +1,22 @@
 /**
- * liyu.caelus 2024/12/29
+ * liyu.caelus 2024/12/31
  * Copyright
  */
 package org.example.mapped.util;
 
+import cn.hutool.core.text.StrBuilder;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.extra.pinyin.PinyinUtil;
+import org.example.mapped.pool.StringBuilderPool;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
+ * create trace id util
+ *
  * @author liyu.caelus
  */
 public class TraceIdUtil {
@@ -23,7 +29,7 @@ public class TraceIdUtil {
 
     private TraceIdUtil() {
         try {
-            hostname = InetAddress.getLocalHost().getHostName();
+            hostname = PinyinUtil.getPinyin(InetAddress.getLocalHost().getHostName(), "");
         } catch (UnknownHostException e) {
             hostname = RandomUtil.randomString(6);
             e.printStackTrace();
@@ -35,6 +41,10 @@ public class TraceIdUtil {
     }
 
     public String generateTraceId() {
-        return String.valueOf(randomUtil.nextInt());
+        StrBuilder sb = StringBuilderPool.getObject();
+        Objects.requireNonNull(sb).append(hostname).append("-").append(randomUtil.nextInt());
+        String traceId = sb.toString();
+        StringBuilderPool.returnObject(sb);
+        return traceId;
     }
 }

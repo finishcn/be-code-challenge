@@ -4,13 +4,17 @@
  */
 package org.example.feign;
 
+import lombok.Setter;
 import org.example.feign.client.OpenFeignClientProxyFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.util.StringUtils;
 
 /**
- * @author liyu.caelus 2024/12/29
+ * create feign client proxy
+ *
+ * @author liyu.caelus 2024/12/31
  */
+@Setter
 public class OpenFeignClientFactoryBean<T> implements FactoryBean<Object> {
 
     private Class<T> type;
@@ -47,49 +51,5 @@ public class OpenFeignClientFactoryBean<T> implements FactoryBean<Object> {
 
     public Class<?> getType() {
         return type;
-    }
-
-    public void setType(Class<T> type) {
-        this.type = type;
-    }
-
-    public Class<?> getFallback() {
-        return fallback;
-    }
-
-    public void setFallback(Class<?> fallback) {
-        this.fallback = fallback;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getContextId() {
-        return contextId;
-    }
-
-    public void setContextId(String contextId) {
-        this.contextId = contextId;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 }

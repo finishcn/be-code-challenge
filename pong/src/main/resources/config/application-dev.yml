@@ -20,26 +20,21 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   cloud:
     stream:
-      default-binder: kafka
-      function:
-        definition: kafkaMessage
+      default-binder: rocketmq
       kafka:
         binder:
           brokers: localhost:9092
+          auto-add-partitions: true
+          min-partition-count: 1
       rocketmq:
         binder:
           name-server: 127.0.0.1:9876
-          group: test
+          group: be
       bindings:
-        kafkaMessage-in-0:
-          binder: kafka
+        kafkaMessage-out-0:
           destination: test
           group: kafka-test-group
           content-type: text/plain
-        receiveTask-in-0:
-          binder: rocketmq
-          destination: test
-          group: test
 eureka:
   client:
     serviceUrl:

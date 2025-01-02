@@ -1,9 +1,10 @@
 /**
- * liyu.caelus 2024/12/29
+ * liyu.caelus 2024/12/31
  * Copyright
  */
 package org.example.feign.register;
 
+import lombok.Setter;
 import org.example.feign.OpenFeignClientFactoryBean;
 import org.example.feign.annotation.EnableOpenFeignClients;
 import org.example.feign.annotation.OpenFeignClient;
@@ -35,8 +36,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author liyu.caelus 2024/12/29
+ * register openfeign client
+ * @author liyu.caelus 2024/12/31
  */
+@Setter
 public class OpenFeignClientsRegister implements ImportBeanDefinitionRegistrar, ResourceLoaderAware, EnvironmentAware {
 
     private ResourceLoader resourceLoader;
@@ -95,10 +98,6 @@ public class OpenFeignClientsRegister implements ImportBeanDefinitionRegistrar, 
             String qualifier = (String) client.get("qualifier");
             return StringUtils.hasText(qualifier) ? qualifier : null;
         }
-    }
-
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
     }
 
     protected Set<String> getBasePackages(AnnotationMetadata importingClassMetadata) {
@@ -187,10 +186,6 @@ public class OpenFeignClientsRegister implements ImportBeanDefinitionRegistrar, 
                 return isCandidate;
             }
         };
-    }
-
-    public void setResourceLoader(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
     }
 
     private boolean isClientRefreshEnabled() {

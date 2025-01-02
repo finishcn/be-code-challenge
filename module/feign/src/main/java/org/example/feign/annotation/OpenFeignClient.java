@@ -1,5 +1,5 @@
 /**
- * liyu.caelus 2024/12/29
+ * liyu.caelus 2024/12/31
  * Copyright
  */
 package org.example.feign.annotation;
@@ -9,7 +9,9 @@ import org.springframework.core.annotation.AliasFor;
 import java.lang.annotation.*;
 
 /**
- * @author liyu.caelus 2024/12/29
+ * Annotation for interfaces declaring that a REST client with that interface should be created
+ *
+ * @author liyu.caelus 2024/12/31
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

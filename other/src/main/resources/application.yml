@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: be-receive-service
+  profiles:
+    active: dev
+  jackson:
+    default-property-inclusion: non_null
+  main:
+    allow-bean-definition-overriding: true
+  thymeleaf:
+    cache: false
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    stream:
+      function:
+        autodetect: false
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,loggers
+
+
+

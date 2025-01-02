@@ -1,5 +1,5 @@
 /**
- * liyu.caelus 2024/12/29
+ * liyu.caelus 2024/12/31
  * Copyright
  */
 package org.example.filter;
@@ -7,7 +7,7 @@ package org.example.filter;
 import com.google.common.util.concurrent.RateLimiter;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
-import org.example.constant.HttpCode;
+import org.example.constant.HttpStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatusCode;
@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 /**
  * Throttling  Interceptor
  *
- * @author liyu.caelus 2024/12/29
+ * @author liyu.caelus 2024/12/31
  */
 @Order(9)
 @Component
@@ -42,7 +42,7 @@ public class ThrottlingInterceptor implements WebFilter {
         if (rateLimiter.tryAcquire()) {
             return chain.filter(exchange);
         } else {
-            exchange.getResponse().setStatusCode(HttpStatusCode.valueOf(HttpCode.RATE_LIMITED));
+            exchange.getResponse().setStatusCode(HttpStatusCode.valueOf(HttpStatus.RATE_LIMITED));
             return Mono.empty();
         }
     }

@@ -35,26 +35,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>trace-mq</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-stream-rocketmq</artifactId>
-        </dependency>-->
-        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-stream-kafka</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -87,7 +72,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <!-- <plugin>
+            <!--<plugin>
                  <groupId>org.codehaus.gmavenplus</groupId>
                  <artifactId>gmavenplus-plugin</artifactId>
                  <version>3.0.2</version>
@@ -108,6 +93,7 @@
                          <include>org/example/controller/*</include>
                          <include>org/example/service/*</include>
                          <include>org/example/component/*</include>
+                         <include>org/example/configuration/*</include>
                      </includes>
                      <rules>
                          <rule implementation="org.jacoco.maven.RuleConfiguration">
