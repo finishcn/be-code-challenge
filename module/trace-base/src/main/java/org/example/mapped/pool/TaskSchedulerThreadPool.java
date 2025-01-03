@@ -4,6 +4,7 @@
  */
 package org.example.mapped.pool;
 
+import jakarta.annotation.Nonnull;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -20,18 +21,19 @@ import java.util.concurrent.ScheduledFuture;
 public class TaskSchedulerThreadPool extends ThreadPoolTaskScheduler {
 
     @Override
-    public void execute(Runnable task) {
+    public void execute(@Nonnull Runnable task) {
         super.execute(new TaskRunnable(task));
     }
 
     @Override
     @Nullable
-    public ScheduledFuture<?> schedule(Runnable task, Trigger trigger) {
+    public ScheduledFuture<?> schedule(@Nonnull Runnable task,@Nonnull Trigger trigger) {
         return super.schedule(new TaskRunnable(task), trigger);
     }
 
+    @Nonnull
     @Override
-    public ScheduledFuture<?> schedule(Runnable task, Date startTime) {
+    public ScheduledFuture<?> schedule(@Nonnull Runnable task,@Nonnull Date startTime) {
         return super.schedule(new TaskRunnable(task), startTime);
     }
 

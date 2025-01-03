@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * clear message queue trace id
  *
  * @Author liyu.caelus
- * @@version 1.0
+ * @version 1.0
  */
 @Aspect
 @Component

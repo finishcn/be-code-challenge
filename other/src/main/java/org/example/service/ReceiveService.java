@@ -30,8 +30,6 @@ public class ReceiveService implements RocketMQListener<MqMessageDTO> {
 
     /**
      * receive pong message
-     *
-     * @param msg
      */
     @Override
     public void onMessage(MqMessageDTO msg) {
@@ -40,7 +38,7 @@ public class ReceiveService implements RocketMQListener<MqMessageDTO> {
             messageRepository.save(PongMessage.builder().traceId(msg.getId()).pongMessage(msg.getPong())
                     .pingMessage(msg.getPing()).build());
         } catch (Exception e) {
-
+            log.error("onMessage error ", e);
         }
     }
 }

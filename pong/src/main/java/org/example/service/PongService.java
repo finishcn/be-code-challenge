@@ -32,9 +32,6 @@ public class PongService {
 
     /**
      * Receive a message from the ping.
-     *
-     * @param msg
-     * @return
      */
     public String respond(String msg) {
         log.info("ping Request sent {}", msg);

@@ -32,7 +32,6 @@ public class TraceIdUtil {
             hostname = PinyinUtil.getPinyin(InetAddress.getLocalHost().getHostName(), "");
         } catch (UnknownHostException e) {
             hostname = RandomUtil.randomString(6);
-            e.printStackTrace();
         }
     }
 

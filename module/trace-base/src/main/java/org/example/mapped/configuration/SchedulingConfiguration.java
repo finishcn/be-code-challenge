@@ -16,7 +16,7 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
  * scheduling configuration
  *
  * @Author liyu.caelus
- * @@version 1.0
+ * @version 1.0
  */
 @Configuration
 public class SchedulingConfiguration implements SchedulingConfigurer {

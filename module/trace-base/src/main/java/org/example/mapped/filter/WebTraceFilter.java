@@ -6,6 +6,7 @@ package org.example.mapped.filter;
 
 
 import io.micrometer.common.util.StringUtils;
+import jakarta.annotation.Nonnull;
 import org.example.constant.MappedConstant;
 import org.example.mapped.util.TraceIdUtil;
 import org.slf4j.MDC;
@@ -18,14 +19,16 @@ import reactor.core.publisher.Mono;
 
 /**
  * check trace id
+ *
  * @author liyu.caelus 2024/12/31
  */
 @Order(1)
 @Component
 public class WebTraceFilter implements WebFilter {
 
+    @Nonnull
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+    public Mono<Void> filter(@Nonnull ServerWebExchange exchange, @Nonnull WebFilterChain chain) {
         if (StringUtils.isBlank(MDC.get(MappedConstant.TRACE_ID))) {
             String traceId = TraceIdUtil.getGenerateTraceId();
             MDC.put(MappedConstant.TRACE_ID, traceId);

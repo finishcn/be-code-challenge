@@ -36,11 +36,10 @@ public class FileLimitedLock {
     private Integer num;
 
     private final List<FileChannel> channelList = new ArrayList<>();
+    private final List<FileOutputStream> streamList = new ArrayList<>();
 
     /**
      * init number of file
-     *
-     * @throws FileNotFoundException
      */
     @PostConstruct
     public void init() throws FileNotFoundException {
@@ -49,16 +48,16 @@ public class FileLimitedLock {
             builder.append(lockFile).append(".").append(i);
             File file = FileUtil.touch(builder.toString());
             log.info(file.getAbsolutePath());
-            channelList.add(new FileOutputStream(file, true).getChannel());
+            FileOutputStream stream = new FileOutputStream(file, true);
+            streamList.add(stream);
+            channelList.add(stream.getChannel());
             builder.reset();
         }
     }
 
     /**
      * check lock
-     *
-     * @return
-     */
+     **/
     public FileLock lock() {
         FileLock lock = null;
         for (FileChannel channel : channelList) {
@@ -76,8 +75,6 @@ public class FileLimitedLock {
 
     /**
      * release lock
-     *
-     * @param lock
      */
     public void unlock(FileLock lock) {
         try {
@@ -89,7 +86,7 @@ public class FileLimitedLock {
 
     @PreDestroy
     public void destroy() {
-        channelList.forEach(channel -> {
+        streamList.forEach(channel -> {
                     try {
                         channel.close();
                     } catch (IOException ig) {

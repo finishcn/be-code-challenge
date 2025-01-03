@@ -11,8 +11,8 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 
 /**
  * pong server
- * @author liyu.caelus 2024/12/31
  *
+ * @author liyu.caelus 2024/12/31
  */
 //@EnableDiscoveryClient
 //@EnableFeignClients

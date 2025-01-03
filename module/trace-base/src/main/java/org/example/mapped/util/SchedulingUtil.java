@@ -51,10 +51,6 @@ public final class SchedulingUtil {
             this.getCronTaskList().add(task);
         }
 
-        public void setTaskRegistrar(ScheduledTaskRegistrar taskRegistrar) {
-            this.taskRegistrar = taskRegistrar;
-        }
-
         public void refresh() {
             if (null != cronTaskList) {
                 for (CronTask task : cronTaskList) {

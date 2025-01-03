@@ -7,6 +7,7 @@ package org.example.filter;
 
 import cn.hutool.core.collection.CollectionUtil;
 import io.micrometer.common.util.StringUtils;
+import jakarta.annotation.Nonnull;
 import org.example.constant.MappedConstant;
 import org.example.mapped.util.TraceIdUtil;
 import org.slf4j.MDC;
@@ -24,8 +25,9 @@ import reactor.core.publisher.Mono;
 @Component
 public class WebFluxTraceFilter implements WebFilter {
 
+    @Nonnull
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+    public Mono<Void> filter(ServerWebExchange exchange,@Nonnull WebFilterChain chain) {
         String traceId = CollectionUtil.getFirst(exchange.getRequest().getHeaders().get(MappedConstant.TRACE_ID));
         if (StringUtils.isBlank(traceId)) {
             traceId = TraceIdUtil.getGenerateTraceId();

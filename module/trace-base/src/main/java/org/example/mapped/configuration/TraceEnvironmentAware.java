@@ -4,6 +4,7 @@
  */
 package org.example.mapped.configuration;
 
+import jakarta.annotation.Nonnull;
 import org.example.constant.MappedConstant;
 import org.slf4j.MDC;
 import org.springframework.beans.BeansException;
@@ -15,19 +16,19 @@ import org.springframework.context.annotation.Configuration;
 /**
  * initial trace name
  *
+ * @version 1.0
  * @Author liyu.caelus
- * @@version 1.0
  */
 @Configuration
 public class TraceEnvironmentAware implements BeanDefinitionRegistryPostProcessor {
 
     @Override
-    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+    public void postProcessBeanDefinitionRegistry(@Nonnull BeanDefinitionRegistry registry) throws BeansException {
         MDC.put(MappedConstant.TRACE_ID, "main");
     }
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    public void postProcessBeanFactory(@Nonnull ConfigurableListableBeanFactory beanFactory) throws BeansException {
 
     }
 }

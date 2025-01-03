@@ -29,8 +29,6 @@ public class PingController {
 
     /**
      * do send
-     *
-     * @return
      */
     @GetMapping(value = "send")
     public Mono<String> send() {
@@ -39,9 +37,6 @@ public class PingController {
 
     /**
      * set send message
-     *
-     * @param msg
-     * @return
      */
     @PostMapping(value = "message")
     public Mono<String> message(String msg) {

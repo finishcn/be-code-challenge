@@ -44,9 +44,6 @@ public class MongoDBConfiguration {
 
     /**
      * create mongodb Transaction Manager
-     *
-     * @param factory
-     * @return
      */
     @Bean
     @ConditionalOnProperty(name = "spring.data.mongodb.transactionEnabled", havingValue = "true")

@@ -39,6 +39,9 @@ public class PingService {
     @Autowired(required = false)
     private MongoTemplate mongoTemplate;
 
+    /**
+     * do send message to pong service
+     */
     public String send() {
         FileLock lock = limitedLock.lock();
         if (null != lock) {
@@ -50,10 +53,10 @@ public class PingService {
                 String body = response.getBody();
                 if (HttpStatus.RATE_LIMITED == response.getHttpCode()) {
                     // Pong service rate limited
-                    log.warn("Pong throttled '{}':{}", body, response.getHttpCode());
+                    log.warn("Pong throttled '{}',http code {}", body, response.getHttpCode());
                     return HttpStatus.RATE_LIMITED_MSG;
                 }
-                log.info("Pong Respond '{}':{}", body, response.getHttpCode());
+                log.info("Pong Respond '{}',http code {}", body, response.getHttpCode());
                 return body;
             } finally {
                 limitedLock.unlock(lock);
@@ -66,8 +69,6 @@ public class PingService {
 
     /**
      * get send message from mongodb
-     *
-     * @return
      */
     private String getSendMessage() {
         if (null != mongoTemplate) {
@@ -85,8 +86,6 @@ public class PingService {
 
     /**
      * set send message to mongodb
-     *
-     * @return
      */
     public String setSendMessage(String msg) {
         if (null != mongoTemplate) {

@@ -4,6 +4,7 @@
  */
 package org.example.filter;
 
+import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ import reactor.core.publisher.Mono;
 @Component
 public class LogFilter implements WebFilter {
 
+    @Nonnull
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         long startTime = System.currentTimeMillis();

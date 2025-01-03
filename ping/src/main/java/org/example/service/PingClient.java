@@ -19,18 +19,12 @@ public interface PingClient {
 
     /**
      * Use the get method to send a message to the Pong service.
-     *
-     * @param msg
-     * @return
      */
     @GetMapping("send/{msg}")
     FeignResponse send(String msg);
 
     /**
      * Use the post method to send a message to the Pong service.
-     *
-     * @param msg
-     * @return
      */
     @PostMapping("service")
     FeignResponse service(String msg);

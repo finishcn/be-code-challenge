@@ -16,7 +16,7 @@ import org.springframework.integration.channel.AbstractMessageChannel;
  * add message queue interceptor
  *
  * @Author liyu.caelus
- * @@version 1.0
+ * @version 1.0
  */
 @Configuration
 public class MessagingConfiguration {
